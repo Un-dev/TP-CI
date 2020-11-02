@@ -15,7 +15,7 @@ workflows:
 jobs:
     build:
         docker:
-            - image: cimg/node:14.10.1
+            - image: cimg/node:12.18
         steps:
             - checkout
             - restore_cache:
@@ -27,7 +27,7 @@ jobs:
                     - ./node_modules
     lint:
         docker:
-            - image: cimg/node:14.10.1
+            - image: cimg/node:12.18
         steps:
             - checkout
             - restore_cache:
@@ -35,7 +35,7 @@ jobs:
             - run : yarn lint && yarn format:check
     test:
         docker:
-            - image: cimg/node:14.10.1
+            - image: cimg/node:12.18
         steps:
             - checkout
             - restore_cache:
@@ -43,18 +43,19 @@ jobs:
             - run : yarn test:ci
     e2e:
         docker:
-            - image: cimg/node:12.19
-            - image: circleci/postgres
+            - image: cimg/node:12.18
+              environment: 
+                DATABASE_URL: "postgres://e2e:test@localhost:5432/psdb"
+                API_PORT: 3000
+                API_HOST: localhost
+                API_PROTOCOL: http
+                JWT_SECRET: yeet
+            - image: circleci/postgres:9.6.2-alpine
               environment:
                 POSTGRES_USER: e2e
                 POSTGRES_DB: psdb   
                 POSTGRES_PASSWORD: test
-        environment: 
-              DATABASE_URL: "postgres://e2e:test@localhost:5432/psdb"
-              API_PORT: 3000
-              API_HOST: localhost
-              API_PROTOCOL: http
-              JWT_SECRET: yeet
+        
         steps: 
             - checkout
             - restore_cache:
