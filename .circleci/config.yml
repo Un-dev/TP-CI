@@ -59,9 +59,9 @@ jobs:
             - run: 
                 name: Launching e2e test
                 command: yarn test:e2e
-                environment: 
-                    DATABASE_URL: "postgres://e2e:test@localhost:5432/psdb"
-                    API_PORT: 3000
-                    API_HOST: localhost
-                    API_PROTOCOL: http
-                    JWT_SECRET: yeet
+        environment: 
+          DATABASE_URL: "postgres://e2e:test@localhost:5432/psdb"
+          API_PORT: 3000
+          API_HOST: localhost
+          API_PROTOCOL: http
+          JWT_SECRET: yeet        
