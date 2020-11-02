@@ -7,11 +7,12 @@ workflows:
           requires:
             - build
 jobs:
+  docker:
+    - image: cimg/node:14.10.1
   build:
-    docker: 
-      - image: cimg/node:14.10.1 # the primary container, where your job's commands are run
+
     steps:
-      - checkout # check out the code in the project directory
+      - checkout
       - restore_cache:
           key: yarn-packages-{{ checksum "yarn.lock" }}
       - run: yarn global add node-gyp && yarn install
@@ -20,8 +21,6 @@ jobs:
           paths:
             - ./node_modules
   test:
-    docker:
-      - image: cimg/node:14.10.1 # the primary container, where your job's commands are run
     steps: 
       - checkout
       - restore_cache:
