@@ -51,17 +51,11 @@ jobs:
           paths:
             - ./node_modules
   db:
-    - image: circleci/postgres:9.6-alpine
-      environment:
-        DATABASE_URL: postgres://$PG_USER@localhost:5432/$PG_DB
-        JWT_SECRET: yeet
-        API_PORT: 3000
-        API_HOST: localhost
-        API_PROTOCOL: http
-    - image:
-      environment:
-        PG_USER: circleci-demo-go
-        PG_DB: circle_test 
+    docker:
+      - image: circleci/postgres:9.6-alpine
+        environment:
+          PG_USER: circleci-demo-go
+          PG_DB: circle_test 
 
     steps:
       - checkout
@@ -74,7 +68,13 @@ jobs:
             - ./node_modules
   e2e:
     docker:
-      - image: cimg/node:14.10.1 
+      - image: cimg/node:14.10.1
+        environment:
+          DATABASE_URL: postgres://$PG_USER@localhost:5432/$PG_DB
+          JWT_SECRET: yeet
+          API_PORT: 3000
+          API_HOST: localhost
+          API_PROTOCOL: http 
     steps:
       - checkout
       - restore_cache:
