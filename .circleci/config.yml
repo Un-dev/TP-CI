@@ -49,13 +49,12 @@ jobs:
             - ./node_modules
   e2e:
     docker:
-      - images: 
-        - cimg/node:14.10.1
-        - circleci/postgres:alpine
-          environment:
-            POSTGRES_USER: circleci-demo-go
-            POSTGRES_DB: circle_test
-            POSTGRES_PASSWORD: toto 
+      - image: cimg/node:14.10.1
+      - image: circleci/postgres:alpine
+    environment:
+      POSTGRES_USER: circleci-demo-go
+      POSTGRES_DB: circle_test
+      POSTGRES_PASSWORD: toto 
     steps:
       - checkout
       - restore_cache:
