@@ -10,7 +10,6 @@ jobs:
   docker:
     - image: cimg/node:14.10.1
   build:
-
     steps:
       - checkout
       - restore_cache:
