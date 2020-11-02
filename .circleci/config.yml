@@ -43,7 +43,7 @@ jobs:
             - run : yarn test:ci
     e2e:
         docker:
-            - image: cimg/node:14.10.1
+            - image: cimg/node:12
             - image: circleci/postgres
               environment:
                 POSTGRES_USER: e2e
@@ -65,4 +65,3 @@ jobs:
             - run: 
                 name: Launching e2e test
                 command: yarn test:e2e
-               
