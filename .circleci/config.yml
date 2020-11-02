@@ -12,7 +12,6 @@ workflows:
       - e2e:
           requires:
             - build 
-version: 2.1
 jobs:
     build:
         docker:
