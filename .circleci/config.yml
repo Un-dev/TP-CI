@@ -7,12 +7,10 @@ jobs:
       - checkout # check out the code in the project directory
       - run: yarn global add node-gyp && yarn install
       - restore_cache:
-          keys:
-            - v1-npm-deps-{{ checksum "yarn.lock" }}
+          key: yarn-packages-{{ checksum "yarn.lock" }}
       - save_cache:
-          keys:
-            - npm-v1-dependencies-{{ checksum "yarn.lock" }      
+          key: yarn-packages-{{ checksum "yarn.lock" }      
           paths:
-            - tmp/cache
+            - ~/.cache/yarn
       
  
