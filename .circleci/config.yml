@@ -9,6 +9,10 @@ workflows:
       - tests:
           requires:
             - build
+      - db
+      - e2e:
+          requires:
+            - db
 jobs:
   build:
     docker:
@@ -46,4 +50,39 @@ jobs:
           key: yarn-packages-v2{{ checksum "yarn.lock" }}      
           paths:
             - ./node_modules
+  db:
+    - image: cimg/node:14.10.1
+      environment:
+        DATABASE_URL: postgres://psqluer:psqlpassword@localhost:5432/psdb
+        JWT_SECRET: yeet
+        API_PORT: 3000
+        API_HOST: localhost
+        API_PROTOCOL: http
+    - image:
+      environment:
+        POSTGRES_USER: circleci-demo-go
+        POSTGRES_DB: circle_test 
+
+    steps:
+      - checkout
+      - restore_cache:
+          key: yarn-packages-v2{{ checksum "yarn.lock" }}
+      
+      - save_cache:
+          key: yarn-packages-v2{{ checksum "yarn.lock" }}      
+          paths:
+            - ./node_modules
+  e2e: 
+    steps:
+      - checkout
+      - restore_cache:
+          key: yarn-packages-v2{{ checksum "yarn.lock" }}
+      - run: yarn test:e2e      
+      - save_cache:
+          key: yarn-packages-v2{{ checksum "yarn.lock" }}      
+          paths:
+            - ./node_modules
+
+
+
 
