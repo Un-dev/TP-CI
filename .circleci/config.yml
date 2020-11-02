@@ -1,4 +1,11 @@
 version: 2.1
+workflows:
+  build_and_test:
+    jobs:
+      - build
+      - test:
+        requires:
+          - build
 jobs:
   build:
     docker: 
@@ -13,8 +20,8 @@ jobs:
           paths:
             - ./node_modules
   test:
-    requires: 
-      - build
+    docker:
+      - image: cimg/node:14.10.1 # the primary container, where your job's commands are run
     steps: 
       - checkout
       - restore_cache:
@@ -26,13 +33,6 @@ jobs:
           paths:
             - ./node_modules
     
-workflows:
-  version: 2.1
-  build_and_test:
-    jobs:
-      - build
-      - test:
-        requires:
-          - build
+
 
  
