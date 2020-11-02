@@ -9,7 +9,7 @@ jobs:
       - restore_cache:
           key: yarn-packages-{{ checksum "yarn.lock" }}
       - save_cache:
-          key: yarn-packages-{{ checksum "yarn.lock" }      
+          key: yarn-packages-{{ checksum "yarn.lock" }}      
           paths:
             - ~/.cache/yarn
       
