@@ -7,9 +7,9 @@ workflows:
           requires:
             - build
 jobs:
-  docker:
-    - image: cimg/node:14.10.1
   build:
+    docker:
+      - image: cimg/node:14.10.1
     steps:
       - checkout
       - restore_cache:
@@ -20,6 +20,8 @@ jobs:
           paths:
             - ./node_modules
   test:
+    docker:
+      - image: cimg/node:14.10.1
     steps: 
       - checkout
       - restore_cache:
