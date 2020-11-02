@@ -6,11 +6,13 @@ jobs:
     steps:
       - checkout # check out the code in the project directory
       - run: yarn global add node-gyp && yarn install
-      - save_cache:
-          keys:
-            - npm-v1-dependencies-{{ checksum "yarn.lock" }
       - restore_cache:
           keys:
             - npm-v1-dependencies-{{ checksum "yarn.lock" }
+      - save_cache:
+          keys:
+            - npm-v1-dependencies-{{ checksum "yarn.lock" }      
+          paths:
+            - tmp/cache
       
  
