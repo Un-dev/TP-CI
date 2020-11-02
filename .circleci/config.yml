@@ -43,7 +43,7 @@ jobs:
             - run : yarn test:ci
     e2e:
         docker:
-            - image: cimg/node:12
+            - image: cimg/node:12-alpine3.10
             - image: circleci/postgres
               environment:
                 POSTGRES_USER: e2e
