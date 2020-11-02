@@ -9,10 +9,7 @@ workflows:
       - tests:
           requires:
             - build
-      - db
       - e2e:
-          requires:
-            - db
 jobs:
   build:
     docker:
@@ -50,25 +47,14 @@ jobs:
           key: yarn-packages-v2{{ checksum "yarn.lock" }}      
           paths:
             - ./node_modules
-  db:
+  e2e:
     docker:
+      - image: cimg/node:14.10.1
       - image: circleci/postgres:alpine
         environment:
           POSTGRES_USER: circleci-demo-go
           POSTGRES_DB: circle_test
-          POSTGRES_PWD: toto
-    steps:
-      - checkout
-      - restore_cache:
-          key: yarn-packages-v2{{ checksum "yarn.lock" }}
-      
-      - save_cache:
-          key: yarn-packages-v2{{ checksum "yarn.lock" }}      
-          paths:
-            - ./node_modules
-  e2e:
-    docker:
-      - image: cimg/node:14.10.1 
+          POSTGRES_PASSWORD: toto 
     steps:
       - checkout
       - restore_cache:
