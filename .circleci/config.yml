@@ -3,7 +3,7 @@ workflows:
   build_and_test:
     jobs:
       - build
-      - test:
+      - tests:
           requires:
             - build
 jobs:
@@ -19,7 +19,7 @@ jobs:
           key: yarn-packages-{{ checksum "yarn.lock" }}      
           paths:
             - ./node_modules
-  test:
+  tests:
     docker:
       - image: cimg/node:14.10.1
     steps: 
