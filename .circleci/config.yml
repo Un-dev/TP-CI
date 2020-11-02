@@ -53,15 +53,15 @@ jobs:
   db:
     - image: cimg/node:14.10.1
       environment:
-        DATABASE_URL: postgres://psqluer:psqlpassword@localhost:5432/psdb
+        DATABASE_URL: postgres://$PG_USER@localhost:5432/$PG_DB
         JWT_SECRET: yeet
         API_PORT: 3000
         API_HOST: localhost
         API_PROTOCOL: http
     - image:
       environment:
-        POSTGRES_USER: circleci-demo-go
-        POSTGRES_DB: circle_test 
+        PG_USER: circleci-demo-go
+        PG_DB: circle_test 
 
     steps:
       - checkout
