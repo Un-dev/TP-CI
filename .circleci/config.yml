@@ -6,7 +6,7 @@ workflows:
       - lint:
           requires:
             - build
-      - tests:
+      - test:
           requires:
             - build
       - e2e:
@@ -25,7 +25,7 @@ jobs:
                 key: yarn-packages-v2{{ checksum "yarn.lock" }}
                 paths:
                     - ./node_modules
-    check_format:
+    lint:
         docker:
             - image: cimg/node:14.10.1
         steps:
