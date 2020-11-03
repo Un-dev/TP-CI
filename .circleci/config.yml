@@ -17,6 +17,10 @@ workflows:
             - e2e
             - lint
             - test
+          filters:
+            branches:
+                only:
+                    - main
       - publish_image:
           context: 
             - DOCKER
