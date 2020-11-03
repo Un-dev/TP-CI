@@ -18,8 +18,14 @@ workflows:
             - lint
             - test
       - publish_image:
+          context: 
+            - DOCKER
           requires:
             - build_docker
+          filters:
+            branches:
+                only:
+                    - main
 jobs:
     build:
         docker:
