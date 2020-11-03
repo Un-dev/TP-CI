@@ -11,7 +11,15 @@ workflows:
             - build
       - e2e:
           requires:
-            - build 
+            - build
+      - build_docker:
+          requires:
+            - e2e
+            - lint
+            - test
+      - publish_image:
+          requires:
+            - build_docker
 jobs:
     build:
         docker:
@@ -66,3 +74,29 @@ jobs:
             - run: 
                 name: Launching e2e test
                 command: yarn test:e2e
+    build_docker:
+        environment:
+            IMAGE_NAME: sgttabouret/my-awesome-ci-expr
+        docker:
+            image: circleci/buildpack-deps:stretch
+        steps: 
+            - checkout
+            - setup_remote_docker
+            - run: docker image build --tag $IMAGE_NAME:app .
+            - run: docker save -o image.tar $IMAGE_NAME
+            - persist_to_workspace:
+                root: .
+                paths:
+                    - ./image.tar         
+    publish_image:
+        steps:
+            - attach_workspace:
+                at: /tmp/workspace
+            - setup_remote_docker
+            - run: 
+                name: Login and Publish to DockerHub
+                command: 
+                    docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASS
+                    docker tag $IMAGE_NAME:latest $IMAGE_NAME:$CIRCLE_BUILD_NUM
+                    docker push $IMAGE_NAME
+
