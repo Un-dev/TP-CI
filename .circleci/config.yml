@@ -89,6 +89,10 @@ jobs:
                 paths:
                     - ./image.tar         
     publish_image:
+        environment:
+            IMAGE_NAME: sgttabouret/my-awesome-ci-expr
+        docker:
+            - image: circleci/buildpack-deps:stretch
         steps:
             - attach_workspace:
                 at: /tmp/workspace
