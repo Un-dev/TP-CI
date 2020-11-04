@@ -60,7 +60,7 @@ jobs:
         step:
           - checkout
           - restore_cache:
-                key: yarn-packages-v2{{ checksum "yarn.lock" }}
+              key: yarn-packages-v2{{ checksum "yarn.lock" }}
           - run: dockerize -wait tcp://localhost:5432 -timeout 1m
           - run: yarn test:e2e
 
