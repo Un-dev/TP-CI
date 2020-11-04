@@ -5,7 +5,7 @@ workflows:
             - build
             - lint: 
                 requires: 
-                - build
+                    - build
             - test:
                 requires:
                     - build
