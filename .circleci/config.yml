@@ -1,15 +1,14 @@
 version: 2.1
 workflows:
     work:
-        build:
-            jobs:
+        jobs:
+            - build
+            - lint: 
+                requires: 
                 - build
-        lint: 
-            requires: 
-                - build
-        test:
-            requires:
-                - build
+            - test:
+                requires:
+                    - build
 
 jobs:
     build:
