@@ -136,4 +136,4 @@ jobs:
             - run: ls
             - store_artifacts:
                 path: doc-server
-                destination: /tmp/artifacts        
+                destination: doc-server        
