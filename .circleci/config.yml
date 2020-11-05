@@ -128,10 +128,12 @@ jobs:
     build_docs_artifact:
         docker: 
             - image: cimg/node:12.18
+        working_directory: /tmp
         steps: 
             - checkout
             - restore_cache:
                 key: yarn-packages-v2{{ checksum "yarn.lock" }}
-            - run: yarn doc:build
+            - run: yarn doc:build doc-server
             - store_artifacts:
-                path: /tmp/artifacts           
+                path: doc-server
+                destination: /tmp/artifacts        
