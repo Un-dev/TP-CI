@@ -128,7 +128,6 @@ jobs:
     build_docs_artifact:
         docker: 
             - image: cimg/node:12.18
-        working_directory: /tmp
         steps: 
             - checkout
             - restore_cache:
