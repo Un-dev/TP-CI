@@ -30,6 +30,15 @@ workflows:
             branches:
                 only:
                     - main
+      - build_docs_artifact:
+          requires:
+            - e2e
+            - lint
+            - test
+          filters:
+            branches:
+                only:
+                    - main
 jobs:
     build:
         docker:
@@ -114,5 +123,15 @@ jobs:
                     echo "$DOCKERHUB_PASS" | docker login --username sgttabouret --password-stdin 
                     docker tag $IMAGE_NAME:app $IMAGE_NAME:$CIRCLE_BUILD_NUM
                     docker tag $IMAGE_NAME:app $IMAGE_NAME:latest
-                    docker push $IMAGE_NAME:latest
                     docker push $IMAGE_NAME:$CIRCLE_BUILD_NUM
+                    docker push $IMAGE_NAME:latest
+    build_docs_artifact:
+        docker: 
+            - image: cimg/node:12.18
+        steps: 
+            - checkout
+            - restore_cache:
+                key: yarn-packages-v2{{ checksum "yarn.lock" }}
+            - run: yarn doc:build
+            - store_artifacts:
+                path: /tmp/artifacts           
