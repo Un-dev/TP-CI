@@ -132,7 +132,8 @@ jobs:
             - checkout
             - restore_cache:
                 key: yarn-packages-v2{{ checksum "yarn.lock" }}
-            - run: yarn doc:build doc-server
+            - run: yarn doc:build
+            - run: ls
             - store_artifacts:
                 path: doc-server
                 destination: /tmp/artifacts        
